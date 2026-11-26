@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EnerData · Edificio SA UFPS</title>
+<style>
+:root{--bg:#f2f5f3;--sf:#fff;--ink:#16241a;--mut:#667269;--ln:#dfe5e0;--pri:#2e6b3f;--pbg:#e4efe7;--use:#2b5c7a;--ubg:#e2edf4;--inn:#b45309;--ibg:#fbeadb;--off:#7b857e;--obg:#edf0ee;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101712;--sf:#18211b;--ink:#e6ede8;--mut:#93a097;--ln:#2a362d;--pri:#6fbf85;--pbg:#1f3326;--use:#7db6d8;--ubg:#1a2d38;--inn:#f0a35e;--ibg:#38281a;--off:#8d988f;--obg:#222c25;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#101712;--sf:#18211b;--ink:#e6ede8;--mut:#93a097;--ln:#2a362d;--pri:#6fbf85;--pbg:#1f3326;--use:#7db6d8;--ubg:#1a2d38;--inn:#f0a35e;--ibg:#38281a;--off:#8d988f;--obg:#222c25;color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0}body{background:var(--bg);color:var(--ink);font:15px/1.5 ui-sans-serif,system-ui,"Segoe UI",sans-serif}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:600;margin:0;letter-spacing:-.01em}
+button{font:inherit;color:inherit;cursor:pointer}button:focus-visible,input:focus-visible{outline:2px solid var(--pri);outline-offset:2px}
+.mut{color:var(--mut)}
+/* login */
+#login{min-height:100vh;display:grid;place-items:center;padding:24px}
+.lg{width:min(420px,100%);background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:32px}
+.lg h1{font-size:1.9rem}.lg p{margin:.4rem 0 1.4rem}
+.lg label{display:block;font-size:.85rem;color:var(--mut);margin:12px 0 4px}
+.lg input{width:100%;padding:10px 12px;border:1px solid var(--ln);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}
+.roles{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.roles button{padding:10px;border:1px solid var(--ln);border-radius:10px;background:var(--bg);text-align:left}
+.roles button[aria-pressed=true]{border-color:var(--pri);background:var(--pbg)}.roles small{display:block;color:var(--mut)}
+.go{width:100%;margin-top:20px;padding:12px;border:0;border-radius:10px;background:var(--pri);color:#fff;font-weight:600}
+:root[data-theme="dark"] .go{color:#0d1a11}
+.err{color:var(--inn);font-size:.85rem;margin:10px 0 0}
+/* app */
+#app{display:none;min-height:100vh;grid-template-columns:230px 1fr}
+aside{background:var(--sf);border-right:1px solid var(--ln);padding:22px 14px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh}
+aside h2{font-size:1.25rem;padding:0 10px 14px}
+.nv{display:block;width:100%;text-align:left;padding:10px 12px;border:0;border-radius:10px;background:none;color:var(--mut)}
+.nv[aria-current=page]{background:var(--pbg);color:var(--ink);font-weight:600}
+.api{margin-top:auto;font-size:.8rem;color:var(--mut);padding:10px}.api i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--pri);margin-right:6px}
+main{padding:24px 28px;min-width:0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.top h1{font-size:1.6rem}.who{display:flex;gap:10px;align-items:center;font-size:.9rem}
+.btn{padding:8px 14px;border:1px solid var(--ln);border-radius:10px;background:var(--sf)}
+.btn.p{background:var(--pri);border-color:var(--pri);color:#fff}:root[data-theme="dark"] .btn.p{color:#0d1a11}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.kp{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.kp div{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:14px 16px}
+.kp b{display:block;font:600 1.7rem Georgia,serif}.kp span{color:var(--mut);font-size:.85rem}
+.cols{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr);gap:20px;align-items:start}
+.tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.tabs button{padding:7px 16px;border:1px solid var(--ln);border-radius:999px;background:var(--sf)}
+.tabs button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.plan{display:grid;grid-template-columns:var(--cols);grid-template-rows:repeat(var(--rows),minmax(64px,1fr));gap:8px;padding:16px;min-height:calc(var(--rows)*76px + 32px);background:var(--sf);border:1px solid var(--ln);border-radius:18px}
+.blk{border:1px dashed var(--ln);border-radius:12px;display:grid;place-items:center;color:var(--mut);font-size:.85rem}
+.blk.na{background:repeating-linear-gradient(135deg,transparent 0 8px,var(--obg) 8px 16px)}
+.room{border:1.5px solid;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:4px;text-align:center}
+.room small{font-size:.78rem}
+[data-st=uso]{background:var(--ubg);border-color:var(--use);color:var(--use)}
+[data-st=off]{background:var(--obg);border-color:var(--ln);color:var(--off)}
+[data-st=inn]{background:var(--ibg);border-color:var(--inn);color:var(--inn)}
+[data-st=occ]{background:var(--pbg);border-color:var(--pri);color:var(--pri)}
+.room.sel{box-shadow:0 0 0 3px var(--ink)}
+.lgd{display:flex;gap:16px;margin-top:10px;font-size:.82rem;color:var(--mut);flex-wrap:wrap}
+.lgd i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;border:1.5px solid}
+.pn{background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:20px;margin-bottom:16px}
+.pn h3{font-size:1.15rem;margin-bottom:10px}
+.chip{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.8rem;border:1px solid}
+.eq{list-style:none;padding:0;margin:14px 0}.eq li{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--ln)}
+.acts{display:flex;gap:8px;flex-wrap:wrap}.note{font-size:.85rem;color:var(--mut);margin-top:10px}
+.av{list-style:none;padding:0;margin:0}.av li{padding:9px 0;border-bottom:1px solid var(--ln);font-size:.9rem}.av li:last-child{border:0}
+.av .t{color:var(--mut);font-size:.8rem}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--ln);font-size:.9rem}th{color:var(--mut);font-weight:500}
+.bar{height:10px;border-radius:6px;background:var(--pri);min-width:2px}
+.tg{display:flex;gap:10px;align-items:center;margin:12px 0}
+@media (max-width:900px){#app{grid-template-columns:1fr}aside{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center}aside h2{padding:0 10px 0 0}.api{display:none}.cols{grid-template-columns:1fr}.kp{grid-template-columns:1fr 1fr}main{padding:18px 14px}}
+</style></head><body>
+<section id="login"><div class="lg">
+<h1>EnerData</h1><p class="mut">Gestión del consumo energético del edificio SA, UFPS.</p>
+<label for="u">Usuario</label><input id="u" value="supervision.sa">
+<label for="pw">Contraseña</label><input id="pw" type="password" autocomplete="off"><p class="err" id="err" role="alert" hidden></p>
+<label>Rol</label>
+<div class="roles"><button data-r="sup" aria-pressed="true">Persona encargada (seguridad)<small>Decide y ordena el apagado</small></button><button data-r="adm" aria-pressed="false">Administración<small>Solo consulta</small></button></div>
+<button class="go" id="go">Ingresar</button></div></section>
+
+<div id="app">
+<aside><h2>EnerData</h2>
+<button class="nv" data-v="panel" aria-current="page">Panel de estado</button>
+<button class="nv" data-v="rep">Reportes y avisos</button>
+<button class="nv" data-v="ges">Espacios y horarios</button>
+<div class="api"><i></i>API conectada · datos simulados</div></aside>
+<main>
+<div class="top"><h1 id="ttl"></h1>
+<div class="who"><span id="who"></span><button class="btn" id="sim">Simular lectura</button><button class="btn" id="out">Salir</button></div></div>
+<div class="kp" id="kp"></div><div id="view"></div>
+</main></div>
+
+<script>
+const F={1:{cols:'1.1fr 1fr',rows:4,blocks:[],rooms:[['Pasillo piso 1',1,'1/5'],['104',2,1],['103',2,2],['102',2,3],['101',2,4]]},
+2:{cols:'1fr .7fr 1fr',rows:6,blocks:[{t:'Baños',c:'1',r:'6'}],rooms:[['Pasillo piso 2',2,'1/7'],['205',1,1],['204',1,2],['203',1,3],['202',1,4],['201',1,5],['206',3,1],['207',3,2],['208',3,3],['209',3,4],['210',3,5]]},
+3:{cols:'1fr .5fr 1fr',rows:4,blocks:[],rooms:[['Pasillo piso 3',2,'1/5'],['Salón FabLab #1',1,1],['Salón FabLab #2',1,2],['Salón FabLab #3',1,3],['Salón FabLab #4',3,1],['Salón FabLab #5',3,2],['Salón FabLab #6',3,3],['311',1,4],['312',3,4]]},
+4:{cols:'1fr .6fr 1fr',rows:6,blocks:[],rooms:[['Pasillo piso 4',2,'1/6'],['Aires del pasillo',2,6],['Auditorio',1,1],['Cafetería',1,2],['404',1,3],['403',1,4],['402',1,5],['401',1,6],['Sala de profesores',3,'1/3'],['411',3,3],['412',3,4],['413',3,5],['414',3,6]]}};
+const L={uso:'En uso',occ:'Ocupado fuera de horario',off:'Apagado',inn:'Consumo innecesario'},INN=['103','207','312','404','411','Pasillo piso 3'],OFF=['102','209','401','Cafetería','Salón FabLab #5'],OCC=['208','Salón FabLab #3'];
+const $=s=>document.querySelector(s);
+let role='sup',floor=1,sel=null,view='panel',auto=false,log=[],offs=0,rooms={};
+Object.entries(F).forEach(([f,d])=>d.rooms.forEach((r,i)=>{const id=r[0];rooms[id]={id,f:+f,name:/^\d+$/.test(id)?'SA '+id:id,st:INN.includes(id)?'inn':OFF.includes(id)?'off':OCC.includes(id)?'occ':'uso',cls:!(INN.includes(id)||OFF.includes(id)||OCC.includes(id)),mv:!(INN.includes(id)||OFF.includes(id)),cd:null,kw:+(1.2+(i*7%9)/4).toFixed(1),ex:false}}));
+const all=()=>Object.values(rooms),kw=o=>o.st==='off'?0:o.kw,hm=()=>new Date().toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'});
+const sched=o=>o.id==='Auditorio'?'Lun a sáb · 08:00 a 20:00':'Lun a sáb · 06:00 a 22:00';
+function addLog(t){log.unshift({t:hm(),x:t});log=log.slice(0,30)}
+function turnOff(o,by){if(o.st==='off')return;o.st='off';o.cd=null;offs++;addLog(o.name+' apagado ('+by+')')}
+function calc(o){if(o.st==='off')return;const ac=o.id==='Aires del pasillo';if(ac)o.mv=all().some(r=>r.f===4&&r!==o&&r.mv&&r.st!=='off');o.st=ac?(o.mv?'uso':'inn'):(o.cls?'uso':(o.mv?'occ':'inn'));if(o.ex&&o.st==='inn')o.st='uso';if(o.st!=='inn')o.cd=null}
+function kpis(){const a=all(),t=a.reduce((s,o)=>s+kw(o),0),n=a.filter(o=>o.st==='inn').length;
+$('#kp').innerHTML=[[t.toFixed(1)+' kW','Consumo actual del edificio'],[n,'Espacios con consumo innecesario'],[offs,'Apagados hoy'],[(offs*0.8).toFixed(1)+' kWh','Ahorro estimado']].map(k=>`<div><b>${k[0]}</b><span>${k[1]}</span></div>`).join('')}
+function plan(){const d=F[floor];let h=`<div class="tabs">${[1,2,3,4].map(n=>`<button data-f="${n}" aria-pressed="${n==floor}">Piso ${n}</button>`).join('')}</div><div class="plan" style="--cols:${d.cols};--rows:${d.rows}">`;
+d.blocks.forEach(b=>h+=`<div class="blk ${b.na?'na':''}" style="grid-column:${b.c};grid-row:${b.r}">${b.t}</div>`);
+d.rooms.forEach(r=>{const o=rooms[r[0]];h+=`<button class="room ${sel===o.id?'sel':''}" data-st="${o.st}" data-id="${o.id}" style="grid-column:${r[1]};grid-row:${r[2]}"><b>${o.name}</b><small>${o.st==='off'?'Apagado':o.kw.toFixed(1)+' kW'}</small></button>`});
+return h+`</div><div class="lgd">${Object.keys(L).map(k=>`<span data-st="${k}" style="background:none;border:0"><i style="background:currentColor;opacity:.25;border-color:currentColor"></i>${L[k]}</span>`).join('')}</div>`}
+function detail(){if(!sel)return `<div class="pn"><h3>Espacio seleccionado</h3><p class="mut">Elige un salón del plano para ver su estado y sus equipos.</p></div>`;
+const o=rooms[sel],on=o.st!=='off',sup=role==='sup';
+return `<div class="pn"><h3>${o.name}</h3><span class="chip" data-st="${o.st}">${L[o.st]}</span>
+<p class="mut" style="margin:10px 0 0">${sched(o)}${o.ex?' · con excepción':''}</p>
+<ul class="eq">${['Luces','Aire acondicionado','Equipos de cómputo'].map(e=>`<li><span>${e}</span><span class="mut">${on?'Encendido':'Apagado'}</span></li>`).join('')}<li><span>${o.id==='Aires del pasillo'?'Movimiento en el piso 4':'Sensor de movimiento'}</span><b>${on?(o.mv?'Sí':'No'):'—'}</b></li><li><span>Consumo</span><b>${kw(o).toFixed(1)} kW</b></li></ul>
+${o.st==='inn'?`<p class="note">Aviso enviado a seguridad: hay consumo sin movimiento. Seguridad decide si ordena el apagado.</p>`:''}${o.st==='occ'?`<p class="note">Hay movimiento en el espacio: no se recomienda apagar.</p>`:''}<div class="acts"><button class="btn" id="dmv" ${on&&o.id!=='Aires del pasillo'?'':'disabled'}>Simular movimiento: ${o.mv?'sí':'no'}</button><button class="btn p" id="doff" ${sup&&on?'':'disabled'}>Ordenar apagado</button><button class="btn" id="dex" ${sup?'':'disabled'}>${o.ex?'Quitar excepción':'Mantener encendido'}</button></div>
+${sup?'':'<p class="note">Tu rol es de consulta y no puede ordenar apagados.</p>'}</div>`}
+function avisos(){const l=all().filter(o=>o.st==='inn');return `<div class="pn"><h3>Avisos</h3><ul class="av">${l.length?l.map(o=>`<li>Consumo innecesario en <b>${o.name}</b><div class="t">${o.kw.toFixed(1)} kW fuera de horario y sin movimiento · pendiente de decisión de seguridad</div></li>`).join(''):'<li class="mut">Sin avisos. Todo el consumo coincide con el horario.</li>'}</ul></div>`}
+function rep(){const fl=[1,2,3,4].map(f=>[f,all().filter(o=>o.f===f).reduce((s,o)=>s+kw(o),0)]),m=Math.max(...fl.map(x=>x[1]),1);
+return `<div class="cols"><div class="pn"><h3>Consumo por piso</h3><table>${fl.map(x=>`<tr><td>Piso ${x[0]}</td><td style="width:55%"><div class="bar" style="width:${x[1]/m*100}%"></div></td><td>${x[1].toFixed(1)} kW</td></tr>`).join('')}</table></div>
+<div><div class="pn"><h3>Registro de apagados</h3><ul class="av">${log.length?log.map(e=>`<li>${e.x}<div class="t">${e.t}</div></li>`).join(''):'<li class="mut">Aún no hay apagados registrados hoy.</li>'}</ul></div></div></div>`}
+function ges(){return `<div class="pn"><h3>Horarios y excepciones</h3><table><tr><th>Espacio</th><th>Piso</th><th>Horario</th><th>Excepción</th></tr>${all().map(o=>`<tr><td>${o.name}</td><td>${o.f}</td><td>${sched(o)}</td><td><button class="btn" data-ex="${o.id}" ${role==='sup'?'':'disabled'}>${o.ex?'Activa':'Sin excepción'}</button></td></tr>`).join('')}</table></div>`}
+const T={panel:'Panel de estado',rep:'Reportes y avisos',ges:'Espacios y horarios'};
+function draw(){$('#ttl').textContent=T[view];$('#who').textContent=(role==='sup'?'Persona encargada':'Administración')+' · '+$('#u').value;kpis();
+$('#view').innerHTML=view==='panel'?`<div class="cols"><div>${plan()}</div><div>${detail()}${avisos()}</div></div>`:view==='rep'?rep()+avisos():ges();
+document.querySelectorAll('.nv').forEach(b=>b.toggleAttribute('aria-current',b.dataset.v===view)||0);document.querySelectorAll('.nv').forEach(b=>b.dataset.v===view?b.setAttribute('aria-current','page'):b.removeAttribute('aria-current'))}
+document.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
+if(t.dataset.r){role=t.dataset.r;document.querySelectorAll('.roles button').forEach(b=>b.setAttribute('aria-pressed',b===t))}
+if(t.id==='go'){const e=$('#err');if(!$('#u').value.trim()){e.textContent='Escribe tu usuario.';e.hidden=false;return}if($('#pw').value!=='ufpsSA'){e.textContent='Contraseña incorrecta. Verifica e intenta de nuevo.';e.hidden=false;$('#pw').select();return}e.hidden=true;$('#login').style.display='none';$('#app').style.display='grid';draw()}
+if(t.id==='out'){$('#app').style.display='none';$('#login').style.display='grid';$('#pw').value='';$('#err').hidden=true}
+if(t.dataset.v){view=t.dataset.v;draw()}if(t.dataset.f){floor=+t.dataset.f;sel=null;draw()}
+if(t.dataset.id){sel=t.dataset.id;draw()}
+if(t.id==='doff'){turnOff(rooms[sel],'ordenado por seguridad');draw()}
+if(t.id==='dmv'){const o=rooms[sel];o.mv=!o.mv;calc(o);calc(rooms['Aires del pasillo']);addLog('Sensor: '+(o.mv?'movimiento detectado':'sin movimiento')+' en '+o.name);draw()}
+if(t.id==='dex'||t.dataset.ex){const o=rooms[t.dataset.ex||sel];o.ex=!o.ex;calc(o);addLog('Excepción '+(o.ex?'registrada':'retirada')+' en '+o.name);draw()}
+if(t.id==='auto'){auto=!auto;t.textContent='Apagado automático: '+(auto?'sí':'no');draw()}
+if(t.id==='sim'){const c=all().filter(o=>o.st==='uso'&&!o.ex&&o.id!=='Aires del pasillo');if(c.length){const o=c[Math.floor(Math.random()*c.length)];o.cls=false;o.mv=false;o.cd=null;calc(o);addLog('Detección: consumo innecesario en '+o.name)}draw()}});
+setInterval(()=>{if($('#app').style.display!=='grid')return;all().forEach(o=>{if(o.st!=='off')o.kw=+Math.max(.6,o.kw+(Math.random()-.5)*.2).toFixed(1);if(o.id==='Aires del pasillo')calc(o);if(auto&&o.st==='inn'&&!o.ex){o.cd=(o.cd==null?5:o.cd)-1;if(o.cd<=0)turnOff(o,'apagado automático tras preaviso')}else if(o.st!=='inn')o.cd=null});draw()},4000);
+$('#pw').addEventListener('keydown',e=>{if(e.key==='Enter')$('#go').click()});
+</script></body></html>
